@@ -27,7 +27,6 @@ class Ui_MainWindow(object):
         self.lineEdit.setStyleSheet("color: rgb(150, 150, 150);")
         self.lineEdit.setText("Путь к файлу")
         self.lineEdit.setObjectName("lineEdit")
-        self.lineEdit.setReadOnly(True)
 
 
         self.pushButton = QtWidgets.QPushButton(MainWindow)
@@ -38,21 +37,25 @@ class Ui_MainWindow(object):
 
         self.label_photo = QtWidgets.QLabel(MainWindow)
         self.label_photo.setObjectName("label")
-        self.label_photo.setGeometry(80, 140, 340, 340)
+        self.label_photo.setGeometry(80, 105, 240, 240)
 
         self.label_photo2 = QtWidgets.QLabel(MainWindow)
         self.label_photo2.setObjectName("label")
-        self.label_photo2.setGeometry(390, 140, 640, 340)
+        self.label_photo2.setGeometry(390, 105, 240, 240)
+
+        self.label_arrow = QtWidgets.QLabel(MainWindow)
+        self.label_arrow.setObjectName("label")
+        self.label_arrow.setGeometry(334, 200, 45, 45)
 
         self.label_mistake = QtWidgets.QLabel(MainWindow)
         self.label_mistake.setObjectName("label")
-        self.label_mistake.setGeometry(80, 140, 500, 40)
-        self.label_mistake.setText("Привет, файл не стандартный, поэтому мы не можем показаеть его содержимое")
+        self.label_mistake.setGeometry(80, 90, 500, 40)
+        self.label_mistake.setText("Привет, файл не стандартный, поэтому мы не можем показаеть его содержимое.")
 
         self.label_mistake2 = QtWidgets.QLabel(MainWindow)
         self.label_mistake2.setObjectName("label")
-        self.label_mistake2.setGeometry(80, 240, 500, 40)
-        self.label_mistake2.setText("Однако ты все еще можешь скачать обработанную версию!!!")
+        self.label_mistake2.setGeometry(80, 130, 500, 40)
+        self.label_mistake2.setText("Ты все еще можешь скачать обработанную версию!!!")
         self.label_mistake2.hide()
         self.label_mistake.hide()
 
@@ -61,12 +64,13 @@ class Ui_MainWindow(object):
     def open_file(self):
         self.file_name = QtWidgets.QFileDialog.getOpenFileName(None, "Open", "", "JPG Files (*.jpg)")
         if self.file_name[0] != '':
+            self.lineEdit.setText(self.file_name[0])
+            self.lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
             file_f = FileWorker(self.file_name[0])
             if file_f.width == 240 and file_f.height == 240:
                 self.label_photo.show()
                 self.label_photo2.show()
-                self.lineEdit.setText(self.file_name[0])
-                self.lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
+                self.label_arrow.show()
 
 
                 pixmap = QPixmap(self.file_name[0])
@@ -80,11 +84,16 @@ class Ui_MainWindow(object):
 
                 qimage = QPixmap.fromImage(qimage)
                 self.label_photo2.setPixmap(qimage)
+
+                pixmap = QPixmap('templates/arrow.png')
+                self.label_arrow.setPixmap(pixmap)
+
                 self.label_mistake2.hide()
                 self.label_mistake.hide()
             else:
                 self.label_photo.hide()
                 self.label_photo2.hide()
+                self.label_arrow.hide()
                 self.label_mistake2.show()
                 self.label_mistake.show()
 
