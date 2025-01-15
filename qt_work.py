@@ -13,12 +13,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(700, 700)
+        MainWindow.resize(700, 500)
+        MainWindow.setWindowTitle("Главный экран")
 
         self.label = QtWidgets.QLabel(MainWindow)
         self.label.setGeometry(80, 30, 560, 30)
         self.label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
         self.label.setObjectName("label")
+        self.label.setText("Выберите файл который хотите проанализировать")
 
         self.lineEdit = QtWidgets.QLineEdit(MainWindow)
         self.lineEdit.setGeometry(80, 60, 450, 30)
@@ -32,6 +34,7 @@ class Ui_MainWindow(object):
         self.pushButton.setGeometry(540, 60, 100, 30)
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.open_file)
+        self.pushButton.setText("Выбрать")
 
         self.label_photo = QtWidgets.QLabel(MainWindow)
         self.label_photo.setObjectName("label")
@@ -53,51 +56,35 @@ class Ui_MainWindow(object):
         self.label_mistake2.hide()
         self.label_mistake.hide()
 
-        #MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 387, 21))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Главный экран"))
-        self.label.setText(_translate("MainWindow", "Выберите файл который хотите проанализировать"))
-        self.pushButton.setText(_translate("MainWindow", "Выбрать"))
 
     def open_file(self):
         self.file_name = QtWidgets.QFileDialog.getOpenFileName(None, "Open", "", "JPG Files (*.jpg)")
         if self.file_name[0] != '':
             file_f = FileWorker(self.file_name[0])
             if file_f.width == 240 and file_f.height == 240:
-                try:
-                    self.lineEdit.setText(self.file_name[0])
-                    self.lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
+                self.label_photo.show()
+                self.label_photo2.show()
+                self.lineEdit.setText(self.file_name[0])
+                self.lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
 
 
-                    pixmap = QPixmap(self.file_name[0])
-                    self.label_photo.setPixmap(pixmap)
+                pixmap = QPixmap(self.file_name[0])
+                self.label_photo.setPixmap(pixmap)
 
-                    img = file_f.set_contours()
-                    h, w = 240, 240
+                img = file_f.set_contours()
+                h, w = 240, 240
 
-                    qimage = QImage(img.data, w, h, 3 * w, QImage.Format_RGB888).rgbSwapped()
+                qimage = QImage(img.data, w, h, 3 * w, QImage.Format_RGB888).rgbSwapped()
 
 
-                    qimage = QPixmap.fromImage(qimage)
-                    self.label_photo2.setPixmap(qimage)
-                    self.label_mistake2.hide()
-                    self.label_mistake.hide()
-                except Exception as e:
-                    print(e)
+                qimage = QPixmap.fromImage(qimage)
+                self.label_photo2.setPixmap(qimage)
+                self.label_mistake2.hide()
+                self.label_mistake.hide()
             else:
-                print(1)
+                self.label_photo.hide()
+                self.label_photo2.hide()
                 self.label_mistake2.show()
                 self.label_mistake.show()
 
