@@ -1,13 +1,7 @@
-import sys
-import qimage2ndarray
-import numpy as np
-from PyQt5 import QtCore, QtGui, QtWidgets
 from FileWorker import FileWorker
-from PyQt5.QtGui import QPixmap, QColor, QImage
-from PyQt5.QtCore import QCoreApplication, Qt
-from PyQt5.QtWidgets import QLabel, QLineEdit, QPushButton, QMenuBar, QFileDialog, QApplication, QMainWindow
-
-
+from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QFileDialog
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
@@ -34,7 +28,20 @@ class Ui_MainWindow(object):
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.open_file)
         self.pushButton.setText("Выбрать")
+        self.labels_for_img()
 
+        #self.button = QtWidgets.QPushButton(MainWindow)
+        #self.pushButton.setGeometry(20, 115, 300, 25)
+        #self.button.pressed.connect(self.download_file)
+    def download_file(self):
+        try:
+            QFileDialog.getSaveFileName(None, "Open", "", "JPG Files (*.jpg)")
+        except Exception as e:
+            print(e)
+
+
+
+    def labels_for_img(self):
         self.label_photo = QtWidgets.QLabel(MainWindow)
         self.label_photo.setObjectName("label")
         self.label_photo.setGeometry(80, 105, 240, 240)
@@ -58,7 +65,6 @@ class Ui_MainWindow(object):
         self.label_mistake2.setText("Ты все еще можешь скачать обработанную версию!!!")
         self.label_mistake2.hide()
         self.label_mistake.hide()
-
 
 
     def open_file(self):
