@@ -20,7 +20,10 @@ class FileWorker():
         print(len(contour))  # смотрим количество
 
     def set_contours(self):
-        img = cv2.imread(self.file, cv2.IMREAD_COLOR)
+        file = open(self.file, "rb")
+        bytes = bytearray(file.read())
+        numpyarray = numpy.asarray(bytes, dtype=numpy.uint8)
+        img = cv2.imdecode(numpyarray, cv2.IMREAD_UNCHANGED)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         _, threshold = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
         contours, _ = cv2.findContours(

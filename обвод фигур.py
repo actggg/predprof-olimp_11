@@ -1,3 +1,5 @@
+import sys
+
 import cv2
 import numpy
 import matplotlib
@@ -6,8 +8,11 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-# reading image
-img = cv2.imread('templates/template_in_0.jpg')
+
+file = open(u'templates/template_in_0.jpg', "rb")
+bytes = bytearray(file.read())
+numpyarray = numpy.asarray(bytes, dtype=numpy.uint8)
+img = cv2.imdecode(numpyarray, cv2.IMREAD_UNCHANGED)
 
 # converting image into grayscale image
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -24,6 +29,6 @@ for i in contours:
         cv2.drawContours(img, [i], 0, (25, 125, 0), 2)
     num += 1
 cv2.imshow('фигуры с маской', img)
-
+print(img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
