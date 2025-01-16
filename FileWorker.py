@@ -1,26 +1,37 @@
+import os
+
 import cv2
 import numpy
 import matplotlib
 import PIL
+import csv
 import numpy as np
 
 
 class FileWorker():
     def __init__(self, file):
-        self.file = file
+        self.file_name = file
         img = PIL.Image.open(file)
         self.width, self.height = img.size
 
     def col(self):
-        img = cv2.imread(self.file, cv2.IMREAD_COLOR)
+        img = cv2.imread(self.file_name, cv2.IMREAD_COLOR)
         # img = cv2.imread("templates/template_in_0.jpg", cv2.IMREAD_COLOR)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # делаем картинку черно-белой
         contours_img = cv2.Canny(gray, 240, 240)  # считываем контуры
         contour, node = cv2.findContours(contours_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)  # считываем контуры и узлы
-        print(len(contour))  # смотрим количество
+        return len(contour)  # смотрим количество
+
+
+    def save_csv(self, file_name):
+        my_list = [file_name, self.col()]
+
+        with open('templates_out.csv', 'a', newline='') as file:
+            writer = csv.writer(file, delimiter=";")
+            writer.writerow(my_list)
 
     def set_contours(self):
-        file = open(self.file, "rb")
+        file = open(self.file_name, "rb")
         bytes = bytearray(file.read())
         numpyarray = numpy.asarray(bytes, dtype=numpy.uint8)
         img = cv2.imdecode(numpyarray, cv2.IMREAD_UNCHANGED)
@@ -36,5 +47,14 @@ class FileWorker():
         cv2.waitKey(0)
         cv2.destroyAllWindows()
         return img
+
+    def save_foto(self, img, name="contour.jpg"):
+        cv2.imwrite(name, img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+    def file_name_no_path(self):
+        return os.path.basename(self.file_name)
+
 
 

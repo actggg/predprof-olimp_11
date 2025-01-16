@@ -30,15 +30,28 @@ class Ui_MainWindow(object):
         self.pushButton.setText("Выбрать")
         self.labels_for_img()
 
-        #self.button = QtWidgets.QPushButton(MainWindow)
-        #self.pushButton.setGeometry(20, 115, 300, 25)
-        #self.button.pressed.connect(self.download_file)
+        self.button = QtWidgets.QPushButton(MainWindow)
+        self.button.setGeometry(360, 360, 160, 50)
+        self.button.setText("Скачать изображение")
+        self.button.pressed.connect(self.download_file)
+        self.button.hide()
+
+        self.button2 = QtWidgets.QPushButton(MainWindow)
+        self.button2.setGeometry(150, 360, 200, 50)
+        self.button2.setText("Считать количество контуров")
+        self.button2.pressed.connect(self.save_in_csv)
+        self.button2.hide()
     def download_file(self):
         try:
-            QFileDialog.getSaveFileName(None, "Open", "", "JPG Files (*.jpg)")
+            FileWorker.save_foto(self.img, self.img, name="my_file.jpg")
         except Exception as e:
             print(e)
 
+    def save_in_csv(self):
+        try:
+            self.file_f.save_csv(self.file_f.file_name_no_path())
+        except Exception as e:
+            print(e)
 
 
     def labels_for_img(self):
@@ -72,8 +85,12 @@ class Ui_MainWindow(object):
         if self.file_name[0] != '':
             self.lineEdit.setText(self.file_name[0])
             self.lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
-            file_f = FileWorker(self.file_name[0])
-            if file_f.width == 240 and file_f.height == 240:
+            self.file_f = FileWorker(self.file_name[0])
+            img = self.file_f.set_contours()
+            self.img = img
+            self.button.show()
+            self.button2.show()
+            if self.file_f.width == 240 and self.file_f.height == 240:
                 self.label_photo.show()
                 self.label_photo2.show()
                 self.label_arrow.show()
@@ -82,7 +99,6 @@ class Ui_MainWindow(object):
                 pixmap = QPixmap(self.file_name[0])
                 self.label_photo.setPixmap(pixmap)
 
-                img = file_f.set_contours()
                 h, w = 240, 240
 
                 qimage = QImage(img.data, w, h, 3 * w, QImage.Format_RGB888).rgbSwapped()
@@ -102,6 +118,7 @@ class Ui_MainWindow(object):
                 self.label_arrow.hide()
                 self.label_mistake2.show()
                 self.label_mistake.show()
+
 
 
 if __name__ == "__main__":

@@ -1,11 +1,13 @@
 import sys
+from tkinter.filedialog import asksaveasfilename
 
 import cv2
 import numpy
 import matplotlib
-
+from tkinter import filedialog as fd, Image
 import cv2
 import numpy as np
+from PIL import ImageTk
 from matplotlib import pyplot as plt
 
 
@@ -30,5 +32,9 @@ for i in contours:
     num += 1
 cv2.imshow('фигуры с маской', img)
 print(img)
+try:
+    cv2.imwrite("file_img.jpg", img)
+except Exception as e:
+    print(e)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
