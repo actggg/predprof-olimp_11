@@ -11,12 +11,20 @@ import numpy as np
 class FileWorker():
     def __init__(self, file):
         self.file_name = file
-        img = PIL.Image.open(file)
-        self.width, self.height = img.size
+        try:
+            file = open(self.file_name, "rb")
+            bytes = bytearray(file.read())
+            numpyarray = numpy.asarray(bytes, dtype=numpy.uint8)
+            self.img = cv2.imdecode(numpyarray, cv2.IMREAD_UNCHANGED)
+            self.width, self.height = self.img.shape[:2]
+        except Exception as e:
+            print(e)
 
     def col(self):
-        img = cv2.imread(self.file_name, cv2.IMREAD_COLOR)
-        # img = cv2.imread("templates/template_in_0.jpg", cv2.IMREAD_COLOR)
+        file = open(self.file_name, "rb")
+        bytes = bytearray(file.read())
+        numpyarray = numpy.asarray(bytes, dtype=numpy.uint8)
+        img = cv2.imdecode(numpyarray, cv2.IMREAD_UNCHANGED)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # делаем картинку черно-белой
         contours_img = cv2.Canny(gray, 240, 240)  # считываем контуры
         contour, node = cv2.findContours(contours_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)  # считываем контуры и узлы
@@ -31,14 +39,11 @@ class FileWorker():
             writer.writerow(my_list)
 
     def set_contours(self):
-        file = open(self.file_name, "rb")
-        bytes = bytearray(file.read())
-        numpyarray = numpy.asarray(bytes, dtype=numpy.uint8)
-        img = cv2.imdecode(numpyarray, cv2.IMREAD_UNCHANGED)
+        img = self.img
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        _, threshold = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+        contours_img = cv2.Canny(gray, 240, 240)
         contours, _ = cv2.findContours(
-            threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+            contours_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         num = 0
         for i in contours:
             if num != 0:

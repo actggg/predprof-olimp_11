@@ -16,15 +16,16 @@ bytes = bytearray(file.read())
 numpyarray = numpy.asarray(bytes, dtype=numpy.uint8)
 img = cv2.imdecode(numpyarray, cv2.IMREAD_UNCHANGED)
 
+
+x, y, z = img.shape
+print(x, y, z)
 # converting image into grayscale image
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-# setting threshold of gray image
-_, threshold = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
-
+contours_img = cv2.Canny(gray, 240, 240)
 # using a findContours() function
 contours, _ = cv2.findContours(
-    threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contours_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 num = 0
 for i in contours:
     if num != 0:
