@@ -1,15 +1,5 @@
-import sys
-from tkinter.filedialog import asksaveasfilename
-
-import cv2
 import numpy
-import matplotlib
-from tkinter import filedialog as fd, Image
 import cv2
-import numpy as np
-from PIL import ImageTk
-from matplotlib import pyplot as plt
-
 
 file = open(u'templates/template_in_0.jpg', "rb")
 bytes = bytearray(file.read())

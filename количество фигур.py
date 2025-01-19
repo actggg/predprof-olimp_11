@@ -1,10 +1,4 @@
-import os
-from PIL import Image
-import PIL
-# loading the image
 import cv2
-import numpy
-import matplotlib
 
 img = cv2.imread("templates/template_in_0.jpg", cv2.IMREAD_COLOR)
 #img = cv2.imread("templates/template_in_0.jpg", cv2.IMREAD_COLOR)

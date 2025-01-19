@@ -1,8 +1,7 @@
 from FileWorker import FileWorker
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QFileDialog
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -41,9 +40,10 @@ class Ui_MainWindow(object):
         self.button2.setText("Считать количество контуров")
         self.button2.pressed.connect(self.save_in_csv)
         self.button2.hide()
+
     def download_file(self):
         try:
-            FileWorker.save_foto(self.img, self.img, self.file_name[0], name=self.file_f.file_name_no_path())
+            self.file_f.save_photo(img=self.img, path='\\'.join(self.file_name[0].split("/")[:-1]), subdir="exports", name=self.file_f.file_name_no_path())
         except Exception as e:
             print(e)
 
@@ -86,8 +86,7 @@ class Ui_MainWindow(object):
             self.lineEdit.setText(self.file_name[0])
             self.lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
             self.file_f = FileWorker(self.file_name[0])
-            img = self.file_f.set_contours()
-            self.img = img
+            self.img = self.file_f.set_contours()
             self.button.show()
             self.button2.show()
             if self.file_f.width == 240 and self.file_f.height == 240:
@@ -101,7 +100,7 @@ class Ui_MainWindow(object):
 
                 h, w = 240, 240
 
-                qimage = QImage(img.data, w, h, 3 * w, QImage.Format_RGB888).rgbSwapped()
+                qimage = QImage(self.img.data, w, h, 3 * w, QImage.Format_RGB888).rgbSwapped()
 
 
                 qimage = QPixmap.fromImage(qimage)
