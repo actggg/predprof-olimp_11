@@ -43,7 +43,7 @@ class Ui_MainWindow(object):
         self.button2.hide()
     def download_file(self):
         try:
-            FileWorker.save_foto(self.img, self.img, name="my_file.jpg")
+            FileWorker.save_foto(self.img, self.img, self.file_name[0], name=self.file_f.file_name_no_path())
         except Exception as e:
             print(e)
 

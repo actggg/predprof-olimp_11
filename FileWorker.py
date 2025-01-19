@@ -1,14 +1,10 @@
 import os
-
 import cv2
 import numpy
-import matplotlib
-import PIL
 import csv
-import numpy as np
 
 
-class FileWorker():
+class FileWorker:
     def __init__(self, file):
         self.file_name = file
         try:
@@ -53,13 +49,17 @@ class FileWorker():
         cv2.destroyAllWindows()
         return img
 
-    def save_foto(self, img, name="contour.jpg"):
-        cv2.imwrite(name, img)
+    def save_foto(self, img, path, name="contour.jpg"):
+        os.makedirs(path, exist_ok=True)
+        print(path)
+        path = 'D:/OpenCV/Scripts/Images'
+        cv2.imwrite(os.path.join(path, name), img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
     def file_name_no_path(self):
         return os.path.basename(self.file_name)
 
-
-
+f = FileWorker("templates/mytest.jpg")
+print(f.file_name)
+cv2.imwrite(r"C:/Users/yuraz/PycharmProjects/predprof-olimp_11/fff.jpg", f.img)
