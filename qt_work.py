@@ -43,12 +43,14 @@ class Ui_MainWindow(object):
 
     def download_file(self):
         try:
+            self.label_download.show()
             self.file_f.save_photo(img=self.img, path='\\'.join(self.file_name[0].split("/")[:-1]), subdir="exports", name=self.file_f.file_name_no_path())
         except Exception as e:
             print(e)
 
     def save_in_csv(self):
         try:
+            self.label_download2.show()
             self.file_f.save_csv(self.file_f.file_name_no_path())
         except Exception as e:
             print(e)
@@ -79,6 +81,20 @@ class Ui_MainWindow(object):
         self.label_mistake2.hide()
         self.label_mistake.hide()
 
+        self.label_download = QtWidgets.QLabel(MainWindow)
+        self.label_download.setObjectName("label")
+        self.label_download.setText("Скаченно, результат в папке exports!!!")
+        self.label_download.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+        self.label_download.setGeometry(80, 420, 500, 50)
+        self.label_download.hide()
+
+        self.label_download2 = QtWidgets.QLabel(MainWindow)
+        self.label_download2.setObjectName("label")
+        self.label_download2.setText("Проанализированно, результат в файле templates_out.csv!!!")
+        self.label_download2.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+        self.label_download2.setGeometry(80, 450, 500, 50)
+        self.label_download2.hide()
+
 
     def open_file(self):
         self.file_name = QtWidgets.QFileDialog.getOpenFileName(None, "Open", "", "JPG Files (*.jpg)")
@@ -89,6 +105,8 @@ class Ui_MainWindow(object):
             self.img = self.file_f.set_contours()
             self.button.show()
             self.button2.show()
+            self.label_download.hide()
+            self.label_download2.hide()
             if self.file_f.width == 240 and self.file_f.height == 240:
                 self.label_photo.show()
                 self.label_photo2.show()

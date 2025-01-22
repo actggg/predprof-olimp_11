@@ -8,20 +8,14 @@ from PIL import Image
 class FileWorker:
     def __init__(self, file):
         self.file_name = file
-        try:
-            file = open(self.file_name, "rb")
-            bytes = bytearray(file.read())
-            numpyarray = numpy.asarray(bytes, dtype=numpy.uint8)
-            self.img = cv2.imdecode(numpyarray, cv2.IMREAD_UNCHANGED)
-            self.width, self.height = self.img.shape[:2]
-        except Exception as e:
-            print(e)
-
-    def col(self):
         file = open(self.file_name, "rb")
         bytes = bytearray(file.read())
         numpyarray = numpy.asarray(bytes, dtype=numpy.uint8)
-        img = cv2.imdecode(numpyarray, cv2.IMREAD_UNCHANGED)
+        self.img = cv2.imdecode(numpyarray, cv2.IMREAD_UNCHANGED)
+        self.width, self.height = self.img.shape[:2]
+
+    def col(self):
+        img = self.img
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # делаем картинку черно-белой
         contours_img = cv2.Canny(gray, 240, 240)  # считываем контуры
         contour, node = cv2.findContours(contours_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)  # считываем контуры и узлы
@@ -46,8 +40,6 @@ class FileWorker:
             if num != 0:
                 cv2.drawContours(img, [i], 0, (25, 125, 0), 2)
             num += 1
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
         return img
 
     def save_photo(self, img, path, subdir, name):
@@ -56,8 +48,6 @@ class FileWorker:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img_PIL = Image.fromarray(img)
         img_PIL.save(os.path.join(path, subdir, name))
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
 
     def file_name_no_path(self):
         return os.path.basename(self.file_name)
