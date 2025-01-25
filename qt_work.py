@@ -83,21 +83,24 @@ class Ui_MainWindow(object):
 
         self.label_download = QtWidgets.QLabel(MainWindow)
         self.label_download.setObjectName("label")
-        self.label_download.setText("Скаченно, результат в папке exports!!!")
+        self.label_download.setText("Скачано, результат в папке exports!!!")
         self.label_download.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
         self.label_download.setGeometry(80, 420, 500, 50)
         self.label_download.hide()
 
         self.label_download2 = QtWidgets.QLabel(MainWindow)
         self.label_download2.setObjectName("label")
-        self.label_download2.setText("Проанализированно, результат в файле templates_out.csv!!!")
+        self.label_download2.setText("Проанализировано, результат в файле templates_out.csv!!!")
         self.label_download2.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
         self.label_download2.setGeometry(80, 450, 500, 50)
         self.label_download2.hide()
 
 
     def open_file(self):
-        self.file_name = QtWidgets.QFileDialog.getOpenFileName(None, "Open", "", "JPG Files (*.jpg)")
+        try:
+            self.file_name = QtWidgets.QFileDialog.getOpenFileName(None, "Open", "", "JPG Files (*.jpg)")
+        except Exception as e:
+            print(e)
         if self.file_name[0] != '':
             self.lineEdit.setText(self.file_name[0])
             self.lineEdit.setStyleSheet("color: rgb(0, 0, 0);")
