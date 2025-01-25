@@ -6,14 +6,14 @@ from PyQt5 import QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(700, 500)
+        MainWindow.setFixedSize(700, 500)
         MainWindow.setWindowTitle("Главный экран")
 
         self.label = QtWidgets.QLabel(MainWindow)
         self.label.setGeometry(80, 30, 560, 30)
         self.label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
         self.label.setObjectName("label")
-        self.label.setText("Выберите файл который хотите проанализировать")
+        self.label.setText("Выберите файл, который хотите проанализировать")
 
         self.lineEdit = QtWidgets.QLineEdit(MainWindow)
         self.lineEdit.setGeometry(80, 60, 450, 30)
@@ -37,14 +37,15 @@ class Ui_MainWindow(object):
 
         self.button2 = QtWidgets.QPushButton(MainWindow)
         self.button2.setGeometry(150, 360, 200, 50)
-        self.button2.setText("Считать количество контуров")
+        self.button2.setText("Посчитать количество контуров")
         self.button2.pressed.connect(self.save_in_csv)
         self.button2.hide()
 
     def download_file(self):
         try:
+            dirlist = QtWidgets.QFileDialog.getExistingDirectory(None, "Выбрать папку", ".")
             self.label_download.show()
-            self.file_f.save_photo(img=self.img, path='\\'.join(self.file_name[0].split("/")[:-1]), subdir="exports", name=self.file_f.file_name_no_path())
+            self.file_f.save_photo(img=self.img, path='\\'.join(dirlist.split("/")), subdir=None, name=self.file_f.file_name_no_path())
         except Exception as e:
             print(e)
 
@@ -72,26 +73,30 @@ class Ui_MainWindow(object):
         self.label_mistake = QtWidgets.QLabel(MainWindow)
         self.label_mistake.setObjectName("label")
         self.label_mistake.setGeometry(80, 90, 500, 40)
-        self.label_mistake.setText("Привет, файл не стандартный, поэтому мы не можем показаеть его содержимое.")
+        self.label_mistake.setText("Размер файла не соответствует 240 х 240 пикселей, предпросмотр недоступен")
 
         self.label_mistake2 = QtWidgets.QLabel(MainWindow)
         self.label_mistake2.setObjectName("label")
         self.label_mistake2.setGeometry(80, 130, 500, 40)
-        self.label_mistake2.setText("Ты все еще можешь скачать обработанную версию!!!")
+        self.label_mistake2.setText("Скачивание и анализ контуров доступны к использованию")
+
+        self.label_mistake2.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        self.label_mistake.setAlignment(Qt.AlignHCenter | Qt.AlignBottom)
+
         self.label_mistake2.hide()
         self.label_mistake.hide()
 
         self.label_download = QtWidgets.QLabel(MainWindow)
         self.label_download.setObjectName("label")
-        self.label_download.setText("Скачано, результат в папке exports!!!")
-        self.label_download.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+        self.label_download.setText("Изображение успешно скачано")
+        self.label_download.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.label_download.setGeometry(80, 420, 500, 50)
         self.label_download.hide()
 
         self.label_download2 = QtWidgets.QLabel(MainWindow)
         self.label_download2.setObjectName("label")
-        self.label_download2.setText("Проанализировано, результат в файле templates_out.csv!!!")
-        self.label_download2.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+        self.label_download2.setText("Проанализировано, результат в файле templates_out.csv")
+        self.label_download2.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.label_download2.setGeometry(80, 450, 500, 50)
         self.label_download2.hide()
 

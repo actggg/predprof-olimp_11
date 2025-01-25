@@ -43,11 +43,16 @@ class FileWorker:
         return img
 
     def save_photo(self, img, path, subdir, name):
-        os.makedirs(os.path.join(path, subdir), exist_ok=True)
-        print(os.path.join(path, subdir, name))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        img_PIL = Image.fromarray(img)
-        img_PIL.save(os.path.join(path, subdir, name))
+        if subdir != None:
+            os.makedirs(os.path.join(path, subdir), exist_ok=True)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img_PIL = Image.fromarray(img)
+            img_PIL.save(os.path.join(path, subdir, name))
+        else:
+            print(os.path.join(path, name))
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img_PIL = Image.fromarray(img)
+            img_PIL.save(os.path.join(path, name))
 
     def file_name_no_path(self):
         return os.path.basename(self.file_name)
