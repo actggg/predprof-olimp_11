@@ -17,12 +17,12 @@ class FileWorker:
     def col(self):
         img = self.img
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # делаем картинку черно-белой
-        contours_img = cv2.Canny(gray, 240, 240)  # считываем контуры
+        contours_img = cv2.Canny(gray, 240, 240)  # считываем картинку контуров
         contour, node = cv2.findContours(contours_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)  # считываем контуры и узлы
-        return len(contour)  # смотрим количество
+        return len(contour)  # смотрим количество контуров
 
 
-    def save_csv(self, file_name):
+    def save_csv(self, file_name): # запись результата в csv файл
         my_list = [file_name, self.col()]
 
         with open('templates_out.csv', 'a', newline='') as file:
@@ -31,18 +31,18 @@ class FileWorker:
 
     def set_contours(self):
         img = self.img
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        contours_img = cv2.Canny(gray, 240, 240)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # делаем картинку черно-белой
+        contours_img = cv2.Canny(gray, 240, 240)  # считываем картинку контуров
         contours, _ = cv2.findContours(
-            contours_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+            contours_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)  # считываем контуры и узлы
         num = 0
         for i in contours:
             if num != 0:
-                cv2.drawContours(img, [i], 0, (25, 125, 0), 2)
+                cv2.drawContours(img, [i], 0, (25, 125, 0), 2)  # накладываем контуры
             num += 1
         return img
 
-    def save_photo(self, img, path, subdir, name):
+    def save_photo(self, img, path, subdir, name):  # сохранение изображения в директорию
         if subdir != None:
             os.makedirs(os.path.join(path, subdir), exist_ok=True)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
