@@ -34,11 +34,5 @@
 
 ## Как запустить
 
-### Предварительные условия
-
--   Установлен [Python 3.x](https://www.python.org).
--   Установлены необходимые библиотеки. Установите с помощью `pip install -r requirements.txt`.
-
 1.  Установите зипархив проекта, распакуйте его.
-
 2.  Запустите приложение которое лежит по пути "predprof-olimp_11-main\predprof-olimp_11-main\output\qt_work" 'qt_work.exe'.
