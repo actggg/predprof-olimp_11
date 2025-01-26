@@ -39,9 +39,6 @@
 -   Установлен [Python 3.x](https://www.python.org).
 -   Установлены необходимые библиотеки. Установите с помощью `pip install -r requirements.txt`.
 
-### Установка
+1.  Установите зипархив проекта, распакуйте его.
 
-1.  Клонируйте репозиторий
-2.  Установите зависимости с помощью pip: `pip install -r requirements.txt` или, если нет requirements.txt, используйте `pip install opencv-python tensorflow`.
-
-3.  Запустите приложение: `python app.py` или `python <имя_основного_файла>.py`.
+2.  Запустите приложение которое лежит по пути "predprof-olimp_11-main\predprof-olimp_11-main\output\qt_work" 'qt_work.exe'.
