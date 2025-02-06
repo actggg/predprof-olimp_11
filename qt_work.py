@@ -44,15 +44,18 @@ class Ui_MainWindow(object):
     def download_file(self):  # функция, скачивание обработанного изображения
         try:
             dirlist = QtWidgets.QFileDialog.getExistingDirectory(None, "Выбрать папку", ".")
-            self.label_download.show()
-            self.file_f.save_photo(img=self.img, path='\\'.join(dirlist.split("/")), subdir=None, name=self.file_f.file_name_no_path())
+            if dirlist:
+                self.label_download.show()
+                self.file_f.save_photo(img=self.img, path='\\'.join(dirlist.split("/")), subdir=None, name=self.file_f.file_name_no_path())
         except Exception as e:
             print(e)
 
-    def save_in_csv(self):  # функция, скачивание количества контуров
+    def save_in_csv(self): # функция, скачивание количества контуров
         try:
-            self.label_download2.show()
-            self.file_f.save_csv(self.file_f.file_name_no_path())
+            dirlist = QtWidgets.QFileDialog.getExistingDirectory(None, "Выбрать папку", ".")
+            if dirlist:
+                self.label_download2.show()
+                self.file_f.save_csv(path='\\'.join(dirlist.split("/")), subdir=None, img_name=self.file_f.file_name_no_path())
         except Exception as e:
             print(e)
 

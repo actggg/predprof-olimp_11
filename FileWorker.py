@@ -21,13 +21,17 @@ class FileWorker:
         contour, node = cv2.findContours(contours_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)  # считываем контуры и узлы
         return len(contour)  # смотрим количество контуров
 
-
-    def save_csv(self, file_name): # запись результата в csv файл
-        my_list = [file_name, self.col()]
-
-        with open('templates_out.csv', 'a', newline='') as file:
-            writer = csv.writer(file, delimiter=";")
-            writer.writerow(my_list)
+    def save_csv(self, path, subdir, img_name, output_name = "templates_out.csv"):
+        my_list = [img_name, self.col()]
+        if subdir != None:
+            os.makedirs(os.path.join(path, subdir), exist_ok=True)
+            with open(str(os.path.join(path, subdir, output_name)), 'a', newline='') as file:
+                writer = csv.writer(file, delimiter=";")
+                writer.writerow(my_list)
+        else:
+            with open(str(os.path.join(path, output_name)), 'a', newline='') as file:
+                writer = csv.writer(file, delimiter=";")
+                writer.writerow(my_list)
 
     def set_contours(self):
         img = self.img
@@ -38,7 +42,7 @@ class FileWorker:
         num = 0
         for i in contours:
             if num != 0:
-                cv2.drawContours(img, [i], 0, (25, 125, 0), 2)  # накладываем контуры
+                cv2.drawContours(img, [i], 0, (0, 0, 160), 2)  # накладываем контуры
             num += 1
         return img
 
@@ -49,7 +53,6 @@ class FileWorker:
             img_PIL = Image.fromarray(img)
             img_PIL.save(os.path.join(path, subdir, name))
         else:
-            print(os.path.join(path, name))
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             img_PIL = Image.fromarray(img)
             img_PIL.save(os.path.join(path, name))
