@@ -39,3 +39,5 @@
 - git clone https://github.com/actggg/predprof-olimp_11.git
 - tar -xf predprof-olimp_11.zip
 - start predprof-olimp_11-main\output\qt_work\qt_work.exe
+**Альтернатива:**
+- скачайте, распакйте и запустите файл по ссылке https://drive.google.com/file/d/1pFeQIlwdTLwsdpWsISRVGm7hL-I3e-p-/view?usp=sharing
