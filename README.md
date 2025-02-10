@@ -33,6 +33,9 @@
 -   **Другие библиотеки:** (PyQt5, os, numpy, csv, pillow)
 
 ## Как запустить
-
 1.  Установите зипархив проекта, распакуйте его.
 2.  Запустите приложение которое лежит по пути "predprof-olimp_11-main\predprof-olimp_11-main\output\qt_work" 'qt_work.exe'.
+Команды для cmd:
+git clone https://github.com/actggg/predprof-olimp_11.git
+tar -xf predprof-olimp_11.zip
+start predprof-olimp_11-main\output\qt_work\qt_work.exe
